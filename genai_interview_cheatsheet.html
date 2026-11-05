@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GenAI Interview — Topics & Key Terms</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+      body {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 0 18px;
+        line-height: 1.5;
+      }
+      h1 {
+        font-size: 1.65rem;
+        margin-bottom: 22px;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      input {
+        flex: 1;
+        min-width: 0;
+        font: inherit;
+        border: 0;
+        border-bottom: 1px solid #888;
+        background: transparent;
+        padding: 7px 0;
+        outline-offset: 3px;
+      }
+      button {
+        font: inherit;
+        background: none;
+        border: 0;
+        color: inherit;
+        cursor: pointer;
+      }
+      button:hover {
+        text-decoration: underline;
+      }
+      .topic {
+        margin: 0 0 20px;
+      }
+      summary {
+        cursor: pointer;
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      summary h2 {
+        font-size: 1.2rem;
+        display: inline;
+        margin: 0;
+        font-weight: 650;
+      }
+      summary::after {
+        content: "⌄";
+        float: right;
+        font-size: 1.15rem;
+      }
+      details[open] summary::after {
+        content: "⌃";
+      }
+      .preview {
+        font-size: 0.85rem;
+        opacity: 0.65;
+        margin: 3px 0 0;
+      }
+      .terms {
+        margin-top: 10px;
+      }
+      .term {
+        font-size: 0.94rem;
+        margin: 7px 0;
+      }
+      .term strong {
+        font-weight: 650;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #151515;
+          color: #eee;
+        }
+        input {
+          color: #eee;
+        }
+      }
+      @media (max-width: 500px) {
+        body {
+          margin: 22px auto;
+        }
+        .toolbar {
+          gap: 6px;
+        }
+        h1 {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>GenAI Interview — Topics & Key Terms</h1>
+    <div class="toolbar">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search topics or terms…"
+        aria-label="Search topics or terms"
+      /><button id="toggle" type="button">Expand all</button>
+    </div>
+    <main id="topics"></main>
+    <script>
+      const topics = [
+        [
+          "GenAI Fundamentals",
+          [
+            ["LLM", "Large Language Model that processes and generates text."],
+            ["Tokens", "Units of text processed by a model."],
+            [
+              "Context Window",
+              "Maximum amount of tokens a model can process at once.",
+            ],
+            ["Prompts", "Instructions and context provided to an LLM."],
+            [
+              "Hallucinations",
+              "Incorrect or fabricated AI-generated information.",
+            ],
+            [
+              "Temperature",
+              "Parameter controlling randomness in generated output.",
+            ],
+          ],
+        ],
+        [
+          "RAG (Retrieval-Augmented Generation)",
+          [
+            ["Embeddings", "Numerical representations of semantic meaning."],
+            [
+              "Chunking",
+              "Splitting documents into smaller searchable sections.",
+            ],
+            [
+              "Vector Database",
+              "Stores and retrieves vectors using similarity search.",
+            ],
+            [
+              "Semantic Search",
+              "Finding information based on meaning rather than keywords.",
+            ],
+            [
+              "Grounding",
+              "Connecting AI-generated answers to external evidence.",
+            ],
+            [
+              "Citations",
+              "References to original sources supporting an answer.",
+            ],
+          ],
+        ],
+        [
+          "Streaming & Real-Time Communication",
+          [
+            [
+              "SSE",
+              "Server-Sent Events — streaming server-to-client events over HTTP.",
+            ],
+            [
+              "WebSockets",
+              "Persistent bidirectional client-server communication.",
+            ],
+            ["Fetch API", "Browser API for making HTTP requests."],
+            [
+              "ReadableStream",
+              "Processes streamed response data incrementally.",
+            ],
+            ["AbortController", "Cancels requests and stream consumption."],
+            [
+              "TTFT",
+              "Time to First Token — how quickly generation starts appearing.",
+            ],
+          ],
+        ],
+        [
+          "Tool Calling & AI Agents",
+          [
+            [
+              "Function Calling",
+              "LLM requests execution of a predefined function.",
+            ],
+            [
+              "Tool Schemas",
+              "Structured definitions of tools and their parameters.",
+            ],
+            ["Agentic Workflows", "AI-driven multi-step tasks using tools."],
+            [
+              "Orchestration",
+              "Coordination of models, tools, and execution steps.",
+            ],
+            [
+              "Multi-step Execution",
+              "Performing dependent actions to complete a task.",
+            ],
+          ],
+        ],
+        [
+          "Human-in-the-Loop",
+          [
+            ["Approval Flows", "User approval before important actions."],
+            ["Human Review", "A person verifies AI outputs or decisions."],
+            ["Confirmation", "Explicit acceptance of a proposed action."],
+            ["Authorization", "Checking permission to perform an action."],
+            ["Audit Trail", "Recorded history of actions and approvals."],
+          ],
+        ],
+        [
+          "AI UX & Trust",
+          [
+            [
+              "Conversational UI",
+              "Chat-based interface for interacting with AI.",
+            ],
+            [
+              "Progress Indicators",
+              "Showing generation and tool execution progress.",
+            ],
+            [
+              "Source Transparency",
+              "Displaying the evidence behind AI answers.",
+            ],
+            [
+              "Uncertainty",
+              "Communicating when information may be incomplete or unreliable.",
+            ],
+            [
+              "Failure States",
+              "Handling errors, timeouts, and interrupted responses.",
+            ],
+            [
+              "Accessibility",
+              "Supporting keyboard navigation, screen readers, and assistive technologies.",
+            ],
+          ],
+        ],
+        [
+          "Front-end Architecture",
+          [
+            ["React", "Component-based library for building interfaces."],
+            [
+              "TypeScript",
+              "Typed JavaScript for safer application development.",
+            ],
+            [
+              "State Management",
+              "Managing messages, loading, tools, and errors.",
+            ],
+            [
+              "Event Handling",
+              "Processing events received from streaming APIs.",
+            ],
+            [
+              "Streaming State",
+              "Tracking response generation and its lifecycle.",
+            ],
+            ["Performance", "Minimizing unnecessary rendering and UI delays."],
+            [
+              "Error Handling",
+              "Managing failures, retries, and partial responses.",
+            ],
+          ],
+        ],
+        [
+          "GenAI Security",
+          [
+            [
+              "Prompt Injection",
+              "Malicious instructions in untrusted content.",
+            ],
+            [
+              "Data Privacy",
+              "Protecting sensitive customer and business information.",
+            ],
+            ["Authentication", "Verifying user identity."],
+            ["Authorization", "Enforcing permissions for data and actions."],
+            ["Guardrails", "Controls limiting unsafe AI behavior."],
+            ["Rate Limiting", "Restricting request frequency and usage."],
+            ["Cost Controls", "Managing token consumption and model expenses."],
+          ],
+        ],
+        [
+          "Evaluation & Observability",
+          [
+            ["Evals", "Tests assessing AI quality and reliability."],
+            [
+              "Tracing",
+              "Following requests across models, tools, and services.",
+            ],
+            ["Latency", "Time required to process a request."],
+            ["Token Usage", "Number of tokens consumed by model calls."],
+            ["Feedback Loops", "Using feedback to improve AI performance."],
+            ["Error Analysis", "Investigating failures and incorrect results."],
+            ["Monitoring", "Tracking production health and performance."],
+          ],
+        ],
+        [
+          "AWS & Infrastructure",
+          [
+            [
+              "Amazon Bedrock",
+              "AWS service for building applications using foundation models.",
+            ],
+            [
+              "Backend APIs",
+              "Server endpoints connecting UI, AI, and business systems.",
+            ],
+            ["Model Inference", "Executing a model to generate a response."],
+            [
+              "Knowledge Bases",
+              "Managed retrieval functionality for grounding answers.",
+            ],
+            ["IAM", "AWS Identity and Access Management."],
+            ["CloudWatch", "AWS monitoring, logging, and metrics service."],
+          ],
+        ],
+        [
+          "Production Readiness",
+          [
+            ["Testing", "Validating functionality and failure scenarios."],
+            ["Retry Logic", "Recovering from temporary failures safely."],
+            ["Cancellation", "Stopping ongoing requests or workflows."],
+            [
+              "Conversation Persistence",
+              "Saving and restoring conversation history.",
+            ],
+            [
+              "Idempotency",
+              "Preventing duplicate effects from repeated requests.",
+            ],
+            [
+              "Safe Releases",
+              "Deploying changes with controlled rollout and rollback.",
+            ],
+            [
+              "Feature Flags",
+              "Enabling or disabling functionality dynamically.",
+            ],
+          ],
+        ],
+      ];
+      const root = document.getElementById("topics");
+      const search = document.getElementById("search");
+      const toggle = document.getElementById("toggle");
+      function render() {
+        const q = search.value.trim().toLowerCase();
+        const expanded = new Set(
+          [...root.querySelectorAll("details[open]")].map((x) =>
+            Number(x.dataset.index),
+          ),
+        );
+        root.replaceChildren();
+        topics.forEach(([title, terms], i) => {
+          const titleMatch = title.toLowerCase().includes(q);
+          const shown =
+            q && !titleMatch
+              ? terms.filter(([term, desc]) =>
+                  (term + " " + desc).toLowerCase().includes(q),
+                )
+              : terms;
+          if (q && !titleMatch && !shown.length) return;
+          const details = document.createElement("details");
+          details.className = "topic";
+          details.dataset.index = i;
+          details.open = !!q || expanded.has(i);
+          const summary = document.createElement("summary");
+          const heading = document.createElement("h2");
+          heading.textContent = `${i + 1}. ${title}`;
+          summary.append(heading);
+          const preview = document.createElement("p");
+          preview.className = "preview";
+          preview.textContent = terms.map((x) => x[0]).join(" · ");
+          summary.append(preview);
+          details.append(summary);
+          const content = document.createElement("div");
+          content.className = "terms";
+          shown.forEach(([term, desc]) => {
+            const p = document.createElement("p");
+            p.className = "term";
+            const strong = document.createElement("strong");
+            strong.textContent = term;
+            p.append(strong, document.createTextNode(" — " + desc));
+            content.append(p);
+          });
+          details.append(content);
+          details.addEventListener("toggle", updateButton);
+          root.append(details);
+        });
+        updateButton();
+      }
+      function updateButton() {
+        const all = [...root.querySelectorAll("details")];
+        toggle.textContent =
+          all.length && all.every((d) => d.open)
+            ? "Collapse all"
+            : "Expand all";
+      }
+      toggle.addEventListener("click", () => {
+        const all = [...root.querySelectorAll("details")];
+        const shouldOpen = !all.every((d) => d.open);
+        all.forEach((d) => (d.open = shouldOpen));
+        updateButton();
+      });
+      search.addEventListener("input", render);
+      render();
+    </script>
+  </body>
+</html>
